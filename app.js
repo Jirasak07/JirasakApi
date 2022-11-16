@@ -8,8 +8,9 @@ const saltRounds = 10;
 var jwt = require("jsonwebtoken");
 const secret = "JirasakPRJ2022";
 const multer = require("multer");
+app.use(express.static('public'));
 
-let PORT = process.env.PORT || 1629
+let PORT = process.env.PORT || 5000
 
 
 // img storage confing
