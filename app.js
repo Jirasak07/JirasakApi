@@ -9,6 +9,8 @@ var jwt = require("jsonwebtoken");
 const secret = "JirasakPRJ2022";
 const multer = require("multer");
 
+let PORT = process.env.PORT || 1629
+
 
 // img storage confing
 var imgconfig = multer.diskStorage({
@@ -432,6 +434,6 @@ app.post("/add-sub-agency", jsonParser, function (req, res, next) {
 
 
 
-app.listen(3333, function () {
-  console.log("CORS-enabled web server listening on port 3333");
+app.listen(PORT, function () {
+  console.log("CORS-enabled web server listening on port 1629");
 });
