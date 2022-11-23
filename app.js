@@ -16,7 +16,7 @@ var imgconfig = multer.diskStorage({
       callback(null,"./asset/img");
   },
   filename:(req,file,callback)=>{
-    file.originalname = new Buffer(file.originalname, 'ascii').toString('utf-8');
+    // file.originalname = new Buffer(file.originalname, 'ascii').toString('utf-8'); chang name to UTF-8
       callback(null,file.originalname)
   }
 });
@@ -177,9 +177,10 @@ app.get("/type", jsonParser, function (req, res, next) {
   );
 });
 
-app.get("/product", jsonParser, function (req, res, next) {
-  connection.query(
-    "SELECT *, sub_aname , ptype_name FROM product LEFT JOIN sub_agen ON product.sub_aid = sub_agen.sub_aid LEFT JOIN product_type ON product.ptype_id = product_type.ptype_id ",
+app.post("/product", jsonParser, function (req, res, next) {
+  connection.execute(
+    "SELECT *, sub_aname , ptype_name FROM product LEFT JOIN sub_agen ON product.sub_aid = sub_agen.sub_aid LEFT JOIN product_type ON product.ptype_id = product_type.ptype_id WHERE sub_agen.main_aid = ? ",
+    [req.body.main_aid],
     function (err, results, fields) {
       res.json(results); // results contains rows returned by server
       // res.json(fields); // fields contains extra meta data about results, if available
@@ -322,9 +323,10 @@ app.post("/login", jsonParser, function (req, res, next) {
             });
             res.json({
               status: "ok",
-              message: "เข้าสู่ระบบสำเร็จ",
+              message:"ยินดีต้อนรับ" + user[0].username  ,
               token,
               userid: user[0].user_id,
+              mid:user[0].main_aid
             });
           } else {
             res.json({
